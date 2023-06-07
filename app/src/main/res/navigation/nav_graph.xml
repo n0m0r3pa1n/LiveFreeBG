@@ -3,16 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/StartupFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.livefreebg.android.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/StartupFragment"
+        android:name="com.livefreebg.android.startup.StartupFragment">
+        <action
+            android:id="@+id/action_startup_to_places"
+            app:destination="@id/PlacesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/PlacesFragment"
+        android:name="com.livefreebg.android.places.PlacesFragment"
+        android:label="@string/places_label"
+        tools:layout="@layout/fragment_places">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            android:id="@+id/action_places_to_Second"
             app:destination="@id/SecondFragment" />
     </fragment>
     <fragment
@@ -23,6 +31,6 @@
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/PlacesFragment" />
     </fragment>
 </navigation>
