@@ -5,4 +5,7 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class LiveFreeBgApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+    }
 }
