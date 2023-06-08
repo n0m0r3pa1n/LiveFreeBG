@@ -12,7 +12,7 @@ class FirestoreUserInfoGateway @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     @ApplicationContext private val context: Context
 ) : UserInfoGateway {
-    fun isUserLoggedIn() = firebaseAuth.currentUser != null
+    override fun isUserLoggedIn() = firebaseAuth.currentUser != null
     override suspend fun signInUserWithFacebook(accessToken: String): Result<Boolean> {
         val credential = FacebookAuthProvider.getCredential(accessToken)
         val result = firebaseAuth.signInWithCredential(credential).await()
