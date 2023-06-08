@@ -5,16 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.facebook.AccessToken
+import androidx.fragment.app.viewModels
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.appevents.UserDataStore.EMAIL
 import com.facebook.login.LoginResult
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
 import com.livefreebg.android.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -25,8 +22,7 @@ class LoginFragment : Fragment() {
     @Inject
     lateinit var callbackManager: CallbackManager
 
-    @Inject
-    lateinit var firebaseAuth: FirebaseAuth
+    private val viewModel: LoginViewModel by viewModels()
 
     private var _binding: FragmentLoginBinding? = null
 
@@ -59,30 +55,12 @@ class LoginFragment : Fragment() {
                 }
 
                 override fun onSuccess(result: LoginResult) {
-                    handleFacebookAccessToken(result.accessToken)
+                    viewModel.signInUser(result.accessToken.token)
                 }
 
             })
         }
     }
-
-    private fun handleFacebookAccessToken(token: AccessToken) {
-
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        firebaseAuth.signInWithCredential(credential)
-            .addOnCompleteListener(requireActivity()) { task ->
-                if (task.isSuccessful) {
-                    val user = firebaseAuth.currentUser
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                }
-            }
-    }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         callbackManager.onActivityResult(requestCode, resultCode, data)
