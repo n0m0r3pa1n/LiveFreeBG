@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.livefreebg.android.R
 import com.livefreebg.android.databinding.FragmentStartupBinding
+import com.livefreebg.android.extensions.observeViewState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +26,11 @@ class StartupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        findNavController().navigate(R.id.action_startup_to_login)
+        observeViewState(viewModel.navigateToLogin) {
+            findNavController().navigate(R.id.action_startup_to_login)
+        }
+        observeViewState(viewModel.navigateToPlaces) {
+            findNavController().navigate(R.id.action_startup_to_places)
+        }
     }
 }

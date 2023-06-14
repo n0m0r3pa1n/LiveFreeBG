@@ -7,12 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.appevents.UserDataStore.EMAIL
-import com.facebook.login.LoginResult
+import com.livefreebg.android.R
 import com.livefreebg.android.databinding.FragmentLoginBinding
+import com.livefreebg.android.extensions.observeViewState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -34,31 +33,21 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with (binding.loginButton) {
-            setPermissions(EMAIL)
             setFragment(this@LoginFragment)
-            registerCallback(this@LoginFragment.callbackManager, object: FacebookCallback<LoginResult> {
-                override fun onCancel() {
-                    TODO("Not yet implemented")
-                }
+            registerCallback(this@LoginFragment.callbackManager, viewModel)
+        }
 
-                override fun onError(error: FacebookException) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onSuccess(result: LoginResult) {
-                    viewModel.signInUser(result.accessToken.token)
-                }
-
-            })
+        observeViewState(viewModel.uiState) {
+            if (it.isAllowedToProceed) {
+                findNavController().navigate(R.id.action_login_to_places)
+            }
         }
     }
 

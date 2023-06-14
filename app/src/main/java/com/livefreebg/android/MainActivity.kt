@@ -14,6 +14,7 @@ import com.livefreebg.android.databinding.ActivityMainBinding
 import com.livefreebg.android.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 

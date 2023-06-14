@@ -13,7 +13,7 @@ class SignInUserUseCase @Inject constructor(
         val result = userInfoGateway.signInUserWithFacebook(accessToken)
         return result.fold(
             onSuccess = {
-                facebookDataSourceProvider.getUserGroupIds().contains(LIVE_FREE_BG_GROUP_ID)
+                true
             },
             onFailure = {
                 Timber.e(it, "Error signing user in!")

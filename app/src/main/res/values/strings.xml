@@ -7,9 +7,9 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="facebook_app_id">976294673507962</string>
-    <string name="fb_login_protocol_scheme">fb976294673507962</string>
-    <string name="facebook_client_token">a8c77445ea4fa1e1cb7098588d3dde93</string>
+    <string name="facebook_app_id">139834199113216</string>
+    <string name="fb_login_protocol_scheme">fb139834199113216</string>
+    <string name="facebook_client_token">b1ef78022440b51ffb809a0447823662</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
