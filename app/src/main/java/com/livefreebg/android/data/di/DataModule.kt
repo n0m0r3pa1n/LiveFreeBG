@@ -2,6 +2,9 @@ package com.livefreebg.android.data.di
 
 import com.facebook.CallbackManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.livefreebg.android.data.firestore.FirestoreUserInfoGateway
 import com.livefreebg.android.domain.login.UserInfoGateway
 import dagger.Binds
@@ -26,6 +29,10 @@ interface DataModule {
         @Provides
         @Singleton
         fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+        @Provides
+        @Singleton
+        fun provideFirebaseStorage(): FirebaseStorage = Firebase.storage
     }
 
 }

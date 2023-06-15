@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.facebook.CallbackManager
-import com.livefreebg.android.R
 import com.livefreebg.android.databinding.FragmentLoginBinding
 import com.livefreebg.android.extensions.observeViewState
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +45,7 @@ class LoginFragment : Fragment() {
 
         observeViewState(viewModel.uiState) {
             if (it.isAllowedToProceed) {
-                findNavController().navigate(R.id.action_login_to_places)
+                findNavController().navigate(LoginFragmentDirections.actionLoginToPlaces())
             }
         }
     }
