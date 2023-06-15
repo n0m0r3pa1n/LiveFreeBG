@@ -11,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.livefreebg.android.databinding.ActivityMainBinding
+import com.livefreebg.android.extensions.observeViewState
 import com.livefreebg.android.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,10 +34,16 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        val inflater = navController.navInflater
+        val graph = inflater.inflate(R.navigation.nav_graph)
 
-        binding.fabAddPlace.setOnClickListener { view ->
+        observeViewState(viewModel.uiState) { uiState ->
+            uiState.startDestinationId?.let {
+                graph.setStartDestination(it)
+                navController.setGraph(graph, intent.extras)
+                appBarConfiguration = AppBarConfiguration(navController.graph)
+                setupActionBarWithNavController(navController, appBarConfiguration)
+            }
         }
     }
 
@@ -47,13 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onSupportNavigateUp(): Boolean {

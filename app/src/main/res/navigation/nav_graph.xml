@@ -2,20 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/StartupFragment">
-
-    <fragment
-        android:id="@+id/StartupFragment"
-        android:name="com.livefreebg.android.startup.StartupFragment">
-        <action
-            android:id="@+id/action_startup_to_places"
-            app:destination="@id/PlacesFragment" />
-
-        <action
-            android:id="@+id/action_startup_to_login"
-            app:destination="@id/LoginFragment" />
-    </fragment>
+    android:id="@+id/nav_graph">
 
     <fragment
         android:id="@+id/PlacesFragment"
@@ -24,8 +11,14 @@
         tools:layout="@layout/fragment_places">
 
         <action
-            android:id="@+id/action_places_to_Second"
-            app:destination="@id/LoginFragment" />
+            android:id="@+id/action_places_to_add"
+            app:destination="@id/AddPlaceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/AddPlaceFragment"
+        android:name="com.livefreebg.android.places.add.AddPlaceFragment"
+        android:label="@string/add_place_label">
+
     </fragment>
     <fragment
         android:id="@+id/LoginFragment"
