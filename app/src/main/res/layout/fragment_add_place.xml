@@ -28,6 +28,14 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Button
+        android:id="@+id/my_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:text="@string/my_location" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/latitude_text_input_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
