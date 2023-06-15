@@ -2,6 +2,7 @@ package com.livefreebg.android.data.di
 
 import com.facebook.CallbackManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
@@ -33,6 +34,11 @@ interface DataModule {
         @Provides
         @Singleton
         fun provideFirebaseStorage(): FirebaseStorage = Firebase.storage
+
+
+        @Provides
+        @Singleton
+        fun provideFirebaseCrashlytics(): FirebaseCrashlytics = FirebaseCrashlytics.getInstance()
     }
 
 }

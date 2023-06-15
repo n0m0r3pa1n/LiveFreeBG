@@ -64,11 +64,6 @@ class PlacesFragment : Fragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable("CENTER", binding.map.mapCenter as GeoPoint)
-        super.onSaveInstanceState(outState)
-    }
-
     override fun onDestroyView() {
         mapCenter = binding.map.mapCenter as GeoPoint
         zoomLevel = binding.map.zoomLevelDouble
