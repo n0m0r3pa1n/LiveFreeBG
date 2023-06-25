@@ -7,6 +7,7 @@
     <string name="longtitude_hint">Longtitude</string>
     <string name="add_place_label">Add a place</string>
     <string name="add_pictures">Add pictures</string>
+    <string name="choose_pictures">Choose pictures</string>
     <string name="save">Save</string>
     <string name="places_label">Places</string>
     <string name="second_fragment_label">Second Fragment</string>
