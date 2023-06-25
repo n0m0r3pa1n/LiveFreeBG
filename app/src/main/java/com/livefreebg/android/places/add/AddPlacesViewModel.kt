@@ -47,7 +47,7 @@ class AddPlacesViewModel @Inject constructor(
                 description = description,
                 lat = coordinates.first.toDouble(),
                 lng = coordinates.second.toDouble(),
-                pictures = uiState.value.pictures
+                pictures = uiState.value.pictures.map { it.toString() }
             )
         )
     }
