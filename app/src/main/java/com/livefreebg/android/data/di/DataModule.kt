@@ -15,7 +15,6 @@ import com.livefreebg.android.data.location.GoogleLocationProvider
 import com.livefreebg.android.domain.login.LocationProvider
 import com.livefreebg.android.domain.login.UserInfoGateway
 import com.livefreebg.android.domain.places.PlacesGateway
-import com.squareup.moshi.Moshi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -59,10 +58,6 @@ interface DataModule {
         fun provideFusedLocationProvider(
             @ApplicationContext context: Context
         ): FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-
-        @Provides
-        @Singleton
-        fun provideMoshi() = Moshi.Builder().build()
     }
 
 }
