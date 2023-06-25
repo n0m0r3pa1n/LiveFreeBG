@@ -20,7 +20,9 @@ class AddPlacesViewModel @Inject constructor(
     fun getCoordinates() = viewModelScope.launch {
         locationProvider.getLastKnownLocation().fold(
             onSuccess = {
-                uiStateEmitter.emit(UiState(it))
+                val lat = String.format("%.6f", it.first)
+                val lng = String.format("%.6f", it.second)
+                uiStateEmitter.emit(UiState(lat to lng))
             },
             onFailure = {
                 Timber.e(it, "Error getting coordinates!")
@@ -28,5 +30,5 @@ class AddPlacesViewModel @Inject constructor(
         )
     }
 
-    data class UiState(val coordinates: Pair<Double, Double>? = null)
+    data class UiState(val coordinates: Pair<String, String>? = null)
 }

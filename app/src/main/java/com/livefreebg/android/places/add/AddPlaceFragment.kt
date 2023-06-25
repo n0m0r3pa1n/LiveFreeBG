@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.livefreebg.android.databinding.FragmentAddPlaceBinding
 import com.livefreebg.android.extensions.observeViewState
+import com.livefreebg.android.places.add.gallery.PicturesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -26,22 +27,24 @@ class AddPlaceFragment : Fragment() {
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var getLocationPermission: ActivityResultLauncher<String>
 
+    private val adapter = PicturesAdapter()
+
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pickMedia = registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uri ->
+        pickMedia = registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
             // Callback is invoked after the user selects a media item or closes the
             // photo picker.
-            if (uri != null) {
-                Timber.d("PhotoPicker", "Selected URI: $uri")
+            if (uris.isNotEmpty()) {
+                adapter.setPictures(uris)
             } else {
                 Timber.d("PhotoPicker", "No media selected")
             }
         }
 
-        getLocationPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) {
+        getLocationPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {isGranted ->
+            if (isGranted) {
                 viewModel.getCoordinates()
             }
         }
@@ -63,8 +66,8 @@ class AddPlaceFragment : Fragment() {
     private fun FragmentAddPlaceBinding.observeViewModel() {
         observeViewState(viewModel.uiState) {
             it.coordinates?.let {
-                latitudeEditText.setText(it.first.toString())
-                longtitudeEditText.setText(it.second.toString())
+                latitudeEditText.setText(it.first)
+                longtitudeEditText.setText(it.second)
             }
         }
     }
@@ -72,6 +75,7 @@ class AddPlaceFragment : Fragment() {
     private fun FragmentAddPlaceBinding.setupViews() {
         imagePicker.setOnClickListener { requestImagePickPermission() }
         myLocation.setOnClickListener { requestCoarsePermission() }
+        gallery.adapter = adapter
     }
 
     private fun requestImagePickPermission() {
