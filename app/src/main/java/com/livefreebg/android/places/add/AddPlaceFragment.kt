@@ -37,7 +37,7 @@ class AddPlaceFragment : Fragment() {
             // Callback is invoked after the user selects a media item or closes the
             // photo picker.
             if (uris.isNotEmpty()) {
-                adapter.setPictures(uris)
+                viewModel.setPictures(uris)
             } else {
                 Timber.d("PhotoPicker", "No media selected")
             }
@@ -69,6 +69,8 @@ class AddPlaceFragment : Fragment() {
                 latitudeEditText.setText(it.first)
                 longtitudeEditText.setText(it.second)
             }
+
+            adapter.setPictures(it.pictures)
         }
     }
 

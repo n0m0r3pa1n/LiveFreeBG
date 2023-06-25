@@ -1,5 +1,6 @@
 package com.livefreebg.android.places.add
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.livefreebg.android.domain.login.LocationProvider
@@ -30,5 +31,14 @@ class AddPlacesViewModel @Inject constructor(
         )
     }
 
-    data class UiState(val coordinates: Pair<String, String>? = null)
+    fun setPictures(uris: List<@JvmSuppressWildcards Uri>) = viewModelScope.launch {
+        uiStateEmitter.emit(
+            uiState.value.copy(pictures = uris)
+        )
+    }
+
+    data class UiState(
+        val coordinates: Pair<String, String>? = null,
+        val pictures: List<Uri> = emptyList()
+    )
 }
