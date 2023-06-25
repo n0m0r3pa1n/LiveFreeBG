@@ -105,7 +105,7 @@
             tools:listitem="@layout/item_picture" />
 
         <Button
-            android:id="@+id/add"
+            android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

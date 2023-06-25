@@ -4,6 +4,8 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.livefreebg.android.domain.login.LocationProvider
+import com.livefreebg.android.domain.places.Place
+import com.livefreebg.android.domain.places.PlacesGateway
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddPlacesViewModel @Inject constructor(
     private val locationProvider: LocationProvider,
+    private val placesGateway: PlacesGateway,
 ) : ViewModel() {
     private val uiStateEmitter = MutableStateFlow(UiState())
     val uiState = uiStateEmitter.asStateFlow()
@@ -37,8 +40,20 @@ class AddPlacesViewModel @Inject constructor(
         )
     }
 
+    fun savePlace(description: String) = viewModelScope.launch {
+        val coordinates = uiState.value.coordinates!!
+        placesGateway.addPlace(
+            Place(
+                description = description,
+                lat = coordinates.first.toDouble(),
+                lng = coordinates.second.toDouble(),
+                pictures = uiState.value.pictures
+            )
+        )
+    }
+
     data class UiState(
         val coordinates: Pair<String, String>? = null,
-        val pictures: List<Uri> = emptyList()
+        val pictures: List<Uri> = emptyList(),
     )
 }

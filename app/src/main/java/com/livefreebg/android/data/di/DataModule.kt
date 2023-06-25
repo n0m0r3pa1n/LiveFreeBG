@@ -9,10 +9,12 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import com.livefreebg.android.data.firestore.FirestorePlacesGateway
 import com.livefreebg.android.data.firestore.FirestoreUserInfoGateway
 import com.livefreebg.android.data.location.GoogleLocationProvider
 import com.livefreebg.android.domain.login.LocationProvider
 import com.livefreebg.android.domain.login.UserInfoGateway
+import com.livefreebg.android.domain.places.PlacesGateway
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -30,6 +32,9 @@ interface DataModule {
 
     @Binds
     fun bindLocationProvider(googleLocationProvider: GoogleLocationProvider): LocationProvider
+
+    @Binds
+    fun bindPlacesGateway(googleLocationProvider: FirestorePlacesGateway): PlacesGateway
 
     companion object {
         @Provides

@@ -12,8 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.livefreebg.android.common.extensions.observeViewState
 import com.livefreebg.android.databinding.FragmentAddPlaceBinding
-import com.livefreebg.android.extensions.observeViewState
 import com.livefreebg.android.places.add.gallery.PicturesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -77,6 +77,7 @@ class AddPlaceFragment : Fragment() {
     private fun FragmentAddPlaceBinding.setupViews() {
         imagePicker.setOnClickListener { requestImagePickPermission() }
         myLocation.setOnClickListener { requestCoarsePermission() }
+        save.setOnClickListener { viewModel.savePlace(descriptionEditText.text.toString()) }
         gallery.adapter = adapter
     }
 

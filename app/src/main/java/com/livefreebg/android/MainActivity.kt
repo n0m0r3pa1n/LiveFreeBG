@@ -10,8 +10,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.livefreebg.android.common.extensions.observeViewState
 import com.livefreebg.android.databinding.ActivityMainBinding
-import com.livefreebg.android.extensions.observeViewState
 import com.livefreebg.android.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

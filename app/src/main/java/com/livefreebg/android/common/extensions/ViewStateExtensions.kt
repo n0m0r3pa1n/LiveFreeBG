@@ -1,4 +1,4 @@
-package com.livefreebg.android.extensions
+package com.livefreebg.android.common.extensions
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

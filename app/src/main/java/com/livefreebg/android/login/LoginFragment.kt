@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.facebook.CallbackManager
+import com.livefreebg.android.common.extensions.observeViewState
 import com.livefreebg.android.databinding.FragmentLoginBinding
-import com.livefreebg.android.extensions.observeViewState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
