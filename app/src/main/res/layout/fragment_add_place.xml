@@ -11,6 +11,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/text_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/text_error"
+            android:textStyle="bold"
+            tools:text="Error!" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/description_text_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

@@ -14,6 +14,10 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <string name="error_empty_description">Description cannot be empty!</string>
+    <string name="error_no_coordinates">Please enter valid coordinates!</string>
+    <string name="error_no_pictures">Pictures are required!</string>
+
     <string name="facebook_app_id">139834199113216</string>
     <string name="fb_login_protocol_scheme">fb139834199113216</string>
     <string name="facebook_client_token">b1ef78022440b51ffb809a0447823662</string>

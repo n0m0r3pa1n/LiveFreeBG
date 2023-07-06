@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.livefreebg.android.common.extensions.observeViewState
 import com.livefreebg.android.databinding.FragmentAddPlaceBinding
 import com.livefreebg.android.places.add.gallery.PicturesAdapter
@@ -54,17 +55,21 @@ class AddPlaceFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-
         _binding = FragmentAddPlaceBinding.inflate(inflater, container, false).apply {
             setupViews()
             observeViewModel()
         }
         return binding.root
-
     }
 
     private fun FragmentAddPlaceBinding.observeViewModel() {
         observeViewState(viewModel.uiState) {
+            if (it.placeSaved) {
+                findNavController().navigate(AddPlaceFragmentDirections.actionAddToPlaces())
+                return@observeViewState
+            }
+
+            textError.text = it.errorMessage
             it.coordinates?.let {
                 latitudeEditText.setText(it.first)
                 longtitudeEditText.setText(it.second)
