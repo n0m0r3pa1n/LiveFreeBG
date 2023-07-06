@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class Place(
+    val id: String? = null,
     val lat: Double,
     val lng: Double,
     val description: String,

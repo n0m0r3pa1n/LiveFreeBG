@@ -6,14 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.livefreebg.android.common.extensions.observeViewState
 import com.livefreebg.android.databinding.FragmentPlacesBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
+import timber.log.Timber
 
-
+@AndroidEntryPoint
 class PlacesFragment : Fragment() {
+
+    private val viewModel: PlacesViewModel by viewModels()
+
     private var mapCenter: GeoPoint? = null
     private var zoomLevel: Double? = null
 
@@ -23,7 +30,8 @@ class PlacesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
+        Configuration.getInstance()
+            .load(context, PreferenceManager.getDefaultSharedPreferences(context))
     }
 
     override fun onCreateView(
@@ -32,6 +40,9 @@ class PlacesFragment : Fragment() {
     ): View {
         _binding = FragmentPlacesBinding.inflate(inflater, container, false).apply {
             setupViews()
+            observeViewState(viewModel.uiState) {
+                Timber.d("#### places ${it.places}")
+            }
         }
 
 

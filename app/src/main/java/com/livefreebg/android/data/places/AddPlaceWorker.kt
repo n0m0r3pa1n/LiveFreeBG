@@ -21,13 +21,12 @@ import javax.inject.Provider
 class AddPlaceWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    private val firebaseFirestore: FirebaseFirestore,
+    private val database: FirebaseFirestore,
     private val firebaseStorage: FirebaseStorage,
     private val placeAdapter: Provider<JsonAdapter<Place>>,
 ) : CoroutineWorker(appContext, workerParams) {
 
     private val uploadedPictures = mutableListOf<UploadedPicture>()
-    private val database = firebaseFirestore
 
     override suspend fun doWork(): Result {
         val place: Place = placeAdapter.get().fromJson(inputData.getString(KEY_PLACE)!!)!!
@@ -58,7 +57,7 @@ class AddPlaceWorker @AssistedInject constructor(
         val firestorePlace = place.toFirestorePlace(uploadedPictures.map { it.fileName })
         database
             .collection("places")
-            .document(firestorePlace.id)
+            .document(firestorePlace.id!!)
             .set(firestorePlace)
             .await()
     }
