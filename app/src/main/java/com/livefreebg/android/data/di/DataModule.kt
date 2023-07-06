@@ -6,6 +6,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
@@ -58,6 +59,10 @@ interface DataModule {
         fun provideFusedLocationProvider(
             @ApplicationContext context: Context
         ): FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+
+        @Provides
+        @Singleton
+        fun provideFirebaseFirestore() = Firebase.firestore
     }
 
 }
