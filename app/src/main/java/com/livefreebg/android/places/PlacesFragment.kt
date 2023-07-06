@@ -17,9 +17,14 @@ import com.livefreebg.android.common.extensions.observeViewState
 import com.livefreebg.android.databinding.FragmentPlacesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.config.Configuration
+import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.overlay.MapEventsOverlay
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.infowindow.InfoWindow
 import timber.log.Timber
+
 
 @AndroidEntryPoint
 class PlacesFragment : Fragment() {
@@ -74,8 +79,16 @@ class PlacesFragment : Fragment() {
                     it.center?.let {
                         controller.setCenter(it)
                     }
-
                     controller.setZoom(it.zoomLevel)
+
+                    it.places.forEach {
+                        val startPoint = GeoPoint(it.lat, it.lng)
+                        val marker = Marker(this)
+                        marker.setInfoWindow(CustomInfoWindow(this))
+                        marker.position = startPoint
+                        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                        overlays.add(marker)
+                    }
                 }
             }
         }
@@ -84,8 +97,21 @@ class PlacesFragment : Fragment() {
         return binding.root
     }
 
+
     private fun FragmentPlacesBinding.setupViews() {
         with(map) {
+            val mapEventsOverlay = MapEventsOverlay(context, object : MapEventsReceiver {
+                override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean {
+                    InfoWindow.closeAllInfoWindowsOn(map);
+                    return true
+                }
+
+                override fun longPressHelper(p: GeoPoint?): Boolean {
+                    return false
+                }
+
+            })
+            overlays.add(0, mapEventsOverlay);
             setUseDataConnection(true)
             setTileSource(TileSourceFactory.MAPNIK)
             setMultiTouchControls(true)

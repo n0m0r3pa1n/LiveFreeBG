@@ -34,21 +34,23 @@ class AddPlaceFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pickMedia = registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
-            // Callback is invoked after the user selects a media item or closes the
-            // photo picker.
-            if (uris.isNotEmpty()) {
-                viewModel.setPictures(uris)
-            } else {
-                Timber.d("PhotoPicker", "No media selected")
+        pickMedia =
+            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
+                // Callback is invoked after the user selects a media item or closes the
+                // photo picker.
+                if (uris.isNotEmpty()) {
+                    viewModel.setPictures(uris)
+                } else {
+                    Timber.d("PhotoPicker", "No media selected")
+                }
             }
-        }
 
-        getLocationPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {isGranted ->
-            if (isGranted) {
-                viewModel.getCoordinates()
+        getLocationPermission =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    viewModel.getCoordinates()
+                }
             }
-        }
     }
 
     override fun onCreateView(
@@ -82,11 +84,21 @@ class AddPlaceFragment : Fragment() {
     private fun FragmentAddPlaceBinding.setupViews() {
         imagePicker.setOnClickListener { requestImagePickPermission() }
         myLocation.setOnClickListener { requestCoarsePermission() }
-        save.setOnClickListener { viewModel.savePlace(descriptionEditText.text.toString()) }
+        save.setOnClickListener {
+            viewModel.savePlace(
+                latitudeEditText.text.toString(),
+                longtitudeEditText.text.toString(),
+                descriptionEditText.text.toString()
+            )
+        }
         gallery.adapter = adapter
     }
 
-    private fun requestImagePickPermission() {
+    private fun FragmentAddPlaceBinding.requestImagePickPermission() {
+        viewModel.saveCoordinates(
+            latitudeEditText.text.toString(),
+            longtitudeEditText.text.toString(),
+        )
         pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 

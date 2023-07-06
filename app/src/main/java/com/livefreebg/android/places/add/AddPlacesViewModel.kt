@@ -21,6 +21,9 @@ class AddPlacesViewModel @Inject constructor(
     private val placesGateway: PlacesGateway,
     private val simpleStringProvider: SimpleStringProvider
 ) : ViewModel() {
+    private val coordinateRegEx =
+        Regex("^-?[0-9]{1,3}(?:\\.[0-9]{1,10})?\$")
+
     private val uiStateEmitter = MutableStateFlow(UiState())
     val uiState = uiStateEmitter.asStateFlow()
 
@@ -43,11 +46,16 @@ class AddPlacesViewModel @Inject constructor(
         )
     }
 
-    fun savePlace(description: String) = viewModelScope.launch {
+    fun savePlace(lat: String, lng: String, description: String) = viewModelScope.launch {
         val currentUiState = uiState.value
         val errorMessage = when {
             description.isEmpty() -> R.string.error_empty_description
-            currentUiState.coordinates == null -> R.string.error_no_coordinates
+            lat.isEmpty()
+                    || lng.isEmpty()
+                    || !lat.isValidCoordinate()
+                    || !lng.isValidCoordinate()
+            -> R.string.error_no_coordinates
+
             currentUiState.pictures.isEmpty() -> R.string.error_no_pictures
             else -> null
         }?.let { simpleStringProvider.getString(it) }
@@ -67,6 +75,13 @@ class AddPlacesViewModel @Inject constructor(
             )
         )
         uiStateEmitter.emit(uiState.value.copy(placeSaved = true))
+    }
+
+    private fun String.isValidCoordinate() = coordinateRegEx.matches(this)
+    fun saveCoordinates(lat: String, lng: String) {
+        uiStateEmitter.value = uiState.value.copy(
+            coordinates =  lat to lng
+        )
     }
 
     data class UiState(
