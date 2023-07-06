@@ -14,14 +14,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class PlacesFragment : Fragment() {
 
     private val viewModel: PlacesViewModel by viewModels()
 
-    private var mapCenter: GeoPoint? = null
     private var zoomLevel: Double? = null
 
     private var _binding: FragmentPlacesBinding? = null
@@ -41,7 +39,9 @@ class PlacesFragment : Fragment() {
         _binding = FragmentPlacesBinding.inflate(inflater, container, false).apply {
             setupViews()
             observeViewState(viewModel.uiState) {
-                Timber.d("#### places ${it.places}")
+                it.center?.let {
+                    binding.map.controller.setCenter(it)
+                }
             }
         }
 
@@ -55,17 +55,12 @@ class PlacesFragment : Fragment() {
             setTileSource(TileSourceFactory.MAPNIK)
             setMultiTouchControls(true)
             setBuiltInZoomControls(true)
-            controller.setZoom(15.toDouble())
+            controller.setZoom(8.30)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        mapCenter?.let {
-            binding.map.controller.setCenter(it)
-        }
-
         zoomLevel?.let {
             binding.map.controller.setZoom(it)
         }
@@ -76,7 +71,7 @@ class PlacesFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        mapCenter = binding.map.mapCenter as GeoPoint
+        viewModel.setCenter(binding.map.mapCenter as GeoPoint)
         zoomLevel = binding.map.zoomLevelDouble
         super.onDestroyView()
         _binding = null
