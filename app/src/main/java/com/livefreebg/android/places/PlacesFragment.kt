@@ -35,6 +35,10 @@ class PlacesFragment : Fragment() {
 
     private lateinit var getLocationPermission: ActivityResultLauncher<String>
 
+    private val placeClickListener = CustomInfoWindow.OnPlaceClickListener {
+        findNavController().navigate(PlacesFragmentDirections.actionPlacesToDetails(it))
+    }
+
     private var _binding: FragmentPlacesBinding? = null
 
     private val binding get() = _binding!!
@@ -96,7 +100,13 @@ class PlacesFragment : Fragment() {
         places.forEach {
             val startPoint = GeoPoint(it.lat, it.lng)
             val marker = Marker(this)
-            marker.setInfoWindow(CustomInfoWindow(this))
+            marker.setInfoWindow(
+                CustomInfoWindow(
+                    it,
+                    placeClickListener,
+                    this
+                )
+            )
             marker.position = startPoint
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             overlays.add(marker)

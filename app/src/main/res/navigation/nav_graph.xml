@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_places_to_add"
             app:destination="@id/AddPlaceFragment" />
+
+        <action
+            android:id="@+id/action_places_to_details"
+            app:destination="@id/PlaceDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/AddPlaceFragment"
@@ -21,6 +25,21 @@
 
         <action
             android:id="@+id/action_add_to_places"
+            app:destination="@id/PlacesFragment"
+            app:popUpTo="@id/PlacesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/PlaceDetailsFragment"
+        android:name="com.livefreebg.android.places.details.PlaceDetailsFragment"
+        android:label="@string/place_details_label">
+
+        <argument
+            android:name="place"
+            app:argType="com.livefreebg.android.domain.places.Place" />
+
+        <action
+            android:id="@+id/action_details_to_places"
             app:destination="@id/PlacesFragment"
             app:popUpTo="@id/PlacesFragment" />
     </fragment>
