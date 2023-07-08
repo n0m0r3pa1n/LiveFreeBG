@@ -9,10 +9,11 @@ data class FirestorePlace(
     val pictures: List<String>? = emptyList(),
     val lat: Double? = null,
     val lng: Double? = null,
-    val description: String? = null
+    val description: String? = null,
+    val isApproved: Boolean = false
 ) {
     fun toPlace(): Place? {
-        if (id == null || pictures == null || lat == null || lng == null || description == null) {
+        if (id == null || pictures == null || lat == null || lng == null || description == null || !isApproved) {
             return null
         }
 

@@ -76,7 +76,8 @@ class AddPlaceWorker @AssistedInject constructor(
         pictures = files,
         lat = lat,
         lng = lng,
-        description = description
+        description = description,
+        isApproved = false
     )
     data class UploadedPicture(val path: String, val fileName: String)
 
