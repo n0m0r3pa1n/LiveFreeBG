@@ -44,6 +44,7 @@ class PlaceDetailsFragment : Fragment() {
         observeViewState(viewModel.uiState) {
             it.place?.let {
                 adapter.setPictures(it.pictures)
+                description.text = it.description
             }
         }
     }
@@ -54,5 +55,10 @@ class PlaceDetailsFragment : Fragment() {
         navigate.setOnClickListener {
             viewModel.navigate()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
