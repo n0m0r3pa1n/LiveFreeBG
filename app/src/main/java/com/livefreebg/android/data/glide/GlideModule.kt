@@ -9,7 +9,6 @@ import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.StorageReference
 import java.io.InputStream
 
-
 @GlideModule
 class GlideModule : AppGlideModule() {
     override fun registerComponents(
