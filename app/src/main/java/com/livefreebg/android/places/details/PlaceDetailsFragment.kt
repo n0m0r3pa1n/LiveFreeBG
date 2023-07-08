@@ -50,5 +50,9 @@ class PlaceDetailsFragment : Fragment() {
 
     private fun FragmentPlaceDetailsBinding.setupViews() {
         gallery.adapter = adapter
+
+        navigate.setOnClickListener {
+            viewModel.navigate()
+        }
     }
 }
