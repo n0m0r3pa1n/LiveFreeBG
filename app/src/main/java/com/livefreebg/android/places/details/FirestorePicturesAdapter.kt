@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.livefreebg.android.R
 import com.livefreebg.android.databinding.ItemPictureBinding
 import javax.inject.Inject
 
@@ -36,6 +37,7 @@ class FirestorePicturesAdapter @Inject constructor(
             Glide
                 .with(binding.root.context)
                 .load(reference)
+                .placeholder(R.mipmap.ic_launcher)
                 .into(binding.picture)
         }
     }
