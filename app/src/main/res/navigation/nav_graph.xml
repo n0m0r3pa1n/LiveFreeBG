@@ -46,7 +46,7 @@
     <fragment
         android:id="@+id/LoginFragment"
         android:name="com.livefreebg.android.login.LoginFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/login_fragment_label"
         tools:layout="@layout/fragment_login">
 
         <action

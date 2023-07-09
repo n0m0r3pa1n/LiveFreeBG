@@ -8,6 +8,8 @@ import com.livefreebg.android.domain.places.PlacesGateway
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
@@ -24,8 +26,9 @@ class PlacesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val places = placesGateway.getAllPlaces()
-            uiStateEmitter.emit(uiState.value.copy(places = places))
+            placesGateway.getAllPlaces()
+                .onEach { uiStateEmitter.emit(uiState.value.copy(places = it)) }
+                .launchIn(viewModelScope)
         }
     }
 

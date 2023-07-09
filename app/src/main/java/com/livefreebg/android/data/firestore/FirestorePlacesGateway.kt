@@ -4,6 +4,7 @@ import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.NetworkType
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.livefreebg.android.data.places.AddPlaceWorker
 import com.livefreebg.android.data.places.FirestorePlace
 import com.livefreebg.android.data.workmanager.AppWorkManager
@@ -11,7 +12,11 @@ import com.livefreebg.android.data.workmanager.enqueueItem
 import com.livefreebg.android.domain.places.Place
 import com.livefreebg.android.domain.places.PlacesGateway
 import com.squareup.moshi.Moshi
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.mapNotNull
+import timber.log.Timber
 import javax.inject.Inject
 
 class FirestorePlacesGateway @Inject constructor(
@@ -30,14 +35,28 @@ class FirestorePlacesGateway @Inject constructor(
         )
     }
 
-    override suspend fun getAllPlaces(): List<Place> {
-        val firestorePlaces = database
-            .collection("places")
-            .get()
-            .await()
-            .documents
-            .map { it.toObject(FirestorePlace::class.java) }
+    override suspend fun getAllPlaces(): Flow<List<Place>> {
+        val firestorePlaces = database.collection("places")
+        return observeCollection<FirestorePlace>(firestorePlaces).mapNotNull { it.mapNotNull { it.toPlace() } }
+    }
 
-        return firestorePlaces.mapNotNull { it?.toPlace() }
+    inline fun <reified T> observeCollection(colRef: Query):
+            Flow<List<T>> = callbackFlow {
+
+        val subscription = colRef.addSnapshotListener { query, error ->
+            if (error != null) {
+                trySend(emptyList())
+                Timber.e(error, "Error observing collection!")
+                return@addSnapshotListener
+            }
+
+            val docs = query?.documents?.mapNotNull {
+                it.toObject(T::class.java)
+            } ?: emptyList()
+
+            trySend(docs)
+        }
+
+        awaitClose { subscription.remove() }
     }
 }

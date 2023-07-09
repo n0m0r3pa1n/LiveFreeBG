@@ -97,6 +97,7 @@ class PlacesFragment : Fragment() {
     }
 
     private fun MapView.displayMarkers(places: List<Place>) {
+        overlays.clear()
         places.forEach {
             val startPoint = GeoPoint(it.lat, it.lng)
             val marker = Marker(this)
